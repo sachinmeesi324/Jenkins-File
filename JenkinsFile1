@@ -1,0 +1,31 @@
+ @Library("shared-libs1") _
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Code Checkout') {
+            steps {
+               git branch: 'main', credentialsId: 'githubpr', url: 'https://github.com/javahometech/doctor-online'
+            }
+        }
+        
+         stage('Maven Build') {
+            steps {
+               sh 'mvn clean package'
+            }
+        }
+        
+        stage("TomCat Deploy")
+        {
+            steps {
+                 tomcatDeploy("172.31.37.72","ec2-user","tomcatdev","doctor-online.war")
+            //  sshagent(['tomcatdev']) {
+            //  sh "scp -o StrictHostKeyChecking=no target/doctor-online.war ec2-user@172.31.37.72:/opt/tomcat9/webapps/"
+            //  sh "ssh ec2-user@172.31.37.72 /opt/tomcat9/bin/shutdown.sh"
+            //  sh "ssh ec2-user@172.31.37.72 /opt/tomcat9/bin/startup.sh"
+            // }
+            }
+        }
+    }
+}
