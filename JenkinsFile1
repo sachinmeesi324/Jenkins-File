@@ -4,11 +4,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Code Checkout') {
-            steps {
-               git branch: 'main', credentialsId: 'githubpr', url: 'https://github.com/javahometech/doctor-online'
-            }
-        }
+      //  stage('Code Checkout') {
+        //    steps {
+          //     git branch: 'main', credentialsId: 'githubpr', url: 'https://github.com/javahometech/doctor-online'
+       //     }
+     //   }
         
          stage('Maven Build') {
             steps {
